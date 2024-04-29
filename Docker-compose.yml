@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  test:
+    build: .
+    image: prit
+    ports:
+      - "3040:3040"
+    environment:
+      - PORT=3040
+    container_name: prittest
+    networks:
+      - my-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3040/health"]
+      interval: 8s
+      timeout: 3s
+      retries: 3
+    restart: on-failure
+  test1:
+    build: .
+    image: prit
+    ports:
+      - "3041:3040"
+    environment:
+      - PORT=3040
+    container_name: prittest1
+    networks:
+      - my-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3040/health"]
+      interval: 8s
+      timeout: 3s
+      retries: 3
+    restart: on-failure
+
+networks:
+  my-net:
+    driver: bridge
